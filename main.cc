@@ -7,7 +7,7 @@ void getFileNames(std::string folderPath, std::vector<std::string> &file_names) 
 
     directory_iterator it(folderPath);
     for (const directory_entry& e : it)  {
-        file_names.push_back(e.path());
+        file_names.push_back(e.path().filename());
     }
 }
 
