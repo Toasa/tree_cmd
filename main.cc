@@ -2,20 +2,26 @@
 #include <vector>
 #include <filesystem>
 
-void getFileNames(std::string folderPath, std::vector<std::string> &file_names) {
-    using namespace std::filesystem;
+struct Tree {
+    void traverse(std::string path, int depth) {
+        using namespace std::filesystem;
 
-    directory_iterator it(folderPath);
-    for (const directory_entry& e : it)  {
-        file_names.push_back(e.path().filename());
+        directory_iterator it(path);
+
+        std::string spaces = std::string(depth*4, ' ');
+
+        for (const directory_entry& e : it) {
+            if (is_directory(e)) {
+                std::cout << spaces << e.path().filename().string() << std::endl;
+                traverse(e.path(), depth+1);
+            } else {
+                std::cout << spaces << e.path().filename().string() << std::endl;
+            }
+        }
     }
-}
+};
 
 int main() {
-    std::vector<std::string> file_names{};
-    getFileNames("./", file_names);
-    for_each(
-            file_names.begin(),
-            file_names.end(),
-            [](auto s) { std::cout << s << std::endl; });
+    Tree tree{};
+    tree.traverse("./", 0);
 }
