@@ -11,11 +11,12 @@ struct Tree {
         std::string spaces = std::string(depth*4, ' ');
 
         for (const directory_entry& e : it) {
+            std::string twig = "├── ";
             if (is_directory(e)) {
-                std::cout << spaces << e.path().filename().string() << std::endl;
+                std::cout << spaces << twig << e.path().filename().string() << std::endl;
                 traverse(e.path(), depth+1);
             } else {
-                std::cout << spaces << e.path().filename().string() << std::endl;
+                std::cout << spaces << twig << e.path().filename().string() << std::endl;
             }
         }
     }
